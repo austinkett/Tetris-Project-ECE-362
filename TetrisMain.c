@@ -238,7 +238,7 @@ int main(void)
 				rotate = 0;
 				rotateBlock();
 			}
-			if (moveCoolDown == 0) {
+			if (moveCoolDown == 0) { //Reads the ADC inputs from the joysticks to determine if movement should be done
 				adcEnableChannel(3);
 				HAL_ADC_Start(&hadc);
 				HAL_ADC_PollForConversion(&hadc, 1500);
@@ -249,7 +249,8 @@ int main(void)
 				HAL_ADC_PollForConversion(&hadc, 1500);
 				adcY = HAL_ADC_GetValue(&hadc);
 				HAL_ADC_Stop(&hadc);
-				if (adcX > 4000) {
+				
+				if (adcX > 4000) { //Moves the block a direction based on input
 					move(0, -1, 1);
 					moveCoolDown = 100;
 				} else if (adcX < 1000) {
@@ -259,7 +260,7 @@ int main(void)
 				if (adcY < 1000) {
 					move(1, 0, 1);
 					moveCoolDown = 100;
-				} else if (adcY > 4000 && adcX > 1000 && adcX < 4000 && upCoolDown == 0) {
+				} else if (adcY > 4000 && adcX > 1000 && adcX < 4000 && upCoolDown == 0) { //Pressing up moves the block all the way down
 					while (move(1, 0, 1)) {}
 					upCoolDown = 200;
 					checkForLines();
